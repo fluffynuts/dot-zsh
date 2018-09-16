@@ -1,0 +1,24 @@
+# -*- shell-script -*-
+
+## Make Things All Right
+#stty erase ^H
+
+bindkey -e
+
+# this is a kludge to get the profile and .profile sourced, but make sure
+#	 that if a PS1 has already been set, we override the one that will
+#	most likely be set by the system profile, since that (by default) doesn't
+#	care about overwriting already set variables
+
+if [ "$PS1" != "" ]; then
+	BACKUP_PS1=$PS1
+fi
+if [ -e /etc/profile ]; then
+	source /etc/profile
+fi
+export PS1=$BACKUP_PS1
+# allow the user's .profile to override PS1 -- but they should rather
+#	set it in their .{shell}rc
+if [ -e $HOME/.profile ]; then
+	source $HOME/.profile
+fi

@@ -1,0 +1,7 @@
+function cv () {
+	if [ "$1" = "" ]; then
+		echo "Usage: cv <bookmark>"
+	else
+		cdargs "$1" && cd "`cat $HOME/.cdargsresult`"
+	fi
+}

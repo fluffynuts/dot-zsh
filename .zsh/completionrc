@@ -1,0 +1,13 @@
+# -*- shell-script -*-
+
+# cd should only do directories (d'uh)
+#compctl -g '*(/)|.*(/)' cd
+# Various logical completions for programs
+#compctl -g '*.tex|*(/)' tex latex
+#compctl -g '*.dvi|*(/)' xdvi dvips
+#compctl -g '*.html|*(/)' appletviewer
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:descriptions' format '%B%d%b'
+zstyle ':completion:*:messages' format '%d'
+zstyle ':completion:*warnings' format 'No matches.'
+zstyle ':completion:*' group-name ''

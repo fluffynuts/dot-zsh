@@ -1,0 +1,9 @@
+CONFIG=~/.zkbd/xterm-:0
+if test -e $CONFIG; then
+    source $CONFIG
+    [[ -n ${key[Home]} ]] && bindkey ${key[Home]} beginning-of-line
+    [[ -n ${key[End]} ]] && bindkey ${key[End]} end-of-line
+    [[ -n ${key[Delete]} ]] && bindkey ${key[Delete]} delete-char
+else
+    echo "WARNING: no zkbd config at $CONFIG"
+fi

@@ -1,0 +1,21 @@
+# -*- shell-script -*-
+
+# Basic stuff.
+
+alias ls='ls --color=auto'
+alias cp='cp -v'
+alias gmc='gmc --nodesktop'
+alias du='du * | sort -gr | less'
+alias df='df -h'
+alias mv='mv -v'
+alias xboard='xboard -size Bulky'
+alias mpg321='mpg321 -v '
+
+alias crontab='EDITOR=vim crontab'
+#alias glxgears='glxgears -printfps'
+alias k9='kill -9 $$'
+alias sqlite='sqlite3'
+alias callgrind='valgrind --tool=callgrind'
+alias mc="LANG=en_US mc"
+alias vlc="/usr/bin/vlc --key-jump+medium \"Mouse Wheel Down\" --key-jump-medium \"Mouse Wheel Up\""
+alias path="echo \$PATH"

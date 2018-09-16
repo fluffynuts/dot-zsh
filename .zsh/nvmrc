@@ -1,0 +1,18 @@
+#!/bin/sh
+# lazy-load nvm, when available
+function enable-nvm() {
+  NVM_DIR="${HOME}/.nvm"
+  if test ! -d "${NVM_DIR}"; then
+      echo "nvm not found at ${HOME}/.nvm; perhaps you still need to download it?"
+      exit
+  fi
+  export NVM_DIR
+  [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"
+  NODE_VERSION="$(nvm current)"
+}
+
+function nvm() {
+  enable-nvm
+  unfunction enable-nvm
+  nvm $@
+}

@@ -1,0 +1,24 @@
+#!/bin/zsh
+BASE=$(dirname $0)
+function install-link() {
+  SOURCE="${BASE}/$1"
+  TARGET="${HOME}/$1"
+  if test -e "$TARGET"; then
+    echo -en "$TARGET already exists... replace with link to ${SOURCE} ? [y/N] "
+    read ANSWER
+    ANSWER="$(echo $ANSWER | tr [:upper:] [:lower:] | sed -e 's/yes/y/g')"
+    if test "$ANSWER" != "y"; then
+      exit 1
+    fi
+    mv "$TARGET" "${TARGET}.bak-$(date +%s)"
+  fi
+  echo "installing: ${TARGET}"
+  ln -s "$SOURCE" "$TARGET"
+}
+
+install-link .zsh
+install-link .zshenv
+install-link .zshrc
+
+
+unfunction install-link

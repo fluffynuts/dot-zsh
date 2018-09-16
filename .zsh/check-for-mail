@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if test -z "$MAILDIR"; then
+  MAILDIR=~/.maildir
+fi
+
+if test ! -z "$(ls $MAILDIR/new/)"; then
+  echo "You've got mail"
+fi

@@ -1,0 +1,56 @@
+#vim: ft=sh
+# -*- shell-script -*-
+
+# ANSI escapes for colors and attributes.
+if test "$(whoami)" = "root"; then
+	Black='[01;30m'
+	Blue='[01;34m'
+	Green='[01;32m'
+	Cyan='[01;36m'
+	Red='[01;31m'
+	Purple='[01;35m'
+	Brown='[01;33m'
+	Gray='[01;37m'
+	Bold='[1m'
+	Norm='[0m'
+	Yellow='[01;33m'
+else
+	Black='[22;30m'
+	Blue='[22;34m'
+	Green='[22;32m'
+	Cyan='[22;36m'
+	Red='[22;31m'
+	Purple='[22;35m'
+	Brown='[22;33m'
+	Gray='[22;37m'
+	Bold='[1m'
+	Norm='[0m'
+	Yellow='[22;33m'
+fi
+
+# A rather boring prompt.
+#export PS1="%m%# "
+
+# Something more interesting
+#export PS1="[%n@%m %c]%# "
+
+# this is my old / current prompt, but on the laptop, we calculate BATT_PERC every prompt, so that's in .zshrc
+POSH=~/code/posh-git-sh/git-prompt.sh_
+if test -f "$POSH"; then
+  source ~/code/posh-git-sh/git-prompt.sh
+  export PROMPT_COMMAND='__posh_git_ps1 "%B%{$Yellow%}[%*] %{$Green%}%n@%m %{$Cyan%}%~ %{$Blue%}%(!.#.$) %{$Norm%}%b"'
+  export PS1="
+%B%{$Yellow%}[%*] %{$Green%}%n@%m %{$Cyan%}%~ %{$Blue%}%(!.#.$) %{$Norm%}%b"
+else
+  if test -e /proc/acpi/battery; then
+  export PS1="
+%B%{$Red%}[-]%{$Yellow%} [%*] %{$Green%}%n@%m %{$Cyan%}%~ %{$Blue%}%(!.#.$) %{$Norm%}%b"
+  else
+  export PS1="
+%B%{$Yellow%}[%*] %{$Green%}%n@%m %{$Cyan%}%~ %{$Blue%}%(!.#.$) %{$Norm%}%b"
+  fi
+fi
+
+
+#export PS1="
+#%B%n%b@%B%m %~ %(!.#.$) %b"

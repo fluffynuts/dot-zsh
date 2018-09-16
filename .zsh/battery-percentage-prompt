@@ -1,0 +1,24 @@
+# may be out of date, but if not, prepends current battery status
+# to the prompt
+
+precmd() {
+	declare -i BATT_PERC
+	if [ -f /proc/acpi/battery/BAT0/state ]; then
+  echo "moo"
+		CHARGE_STATE=`cat /proc/acpi/ac_adapter/AC/state | cut -c 26-33`
+		if [ "$CHARGE_STATE" = "on-line" ]; then
+			export PS1="
+%B%{$Red%}[=AC=]%{$Yellow%} [%*] %{$Green%}%n@%m %{$Cyan%}%~ %{$Blue%}%(!.#.$) %{$Norm%}%b"
+		else
+			BATT_CURRENT=`grep "remaining capacity:" /proc/acpi/battery/BAT0/state | cut -c 26-32 | cut -f1 --delimiter=" "`
+			BATT_MAX=`grep "last full capacity:" /proc/acpi/battery/BAT0/info | cut -c 26-29`
+			if [ "$BATT_CURRENT" == "" ] || [ "$BATT_MAX" == "" ]; then
+				BATT_PERC = "=-="
+			else
+				BATT_PERC=$BATT_CURRENT*100/$BATT_MAX
+			fi
+			export PS1="
+%B%{$Red%}[$BATT_PERC%%]%{$Yellow%} [%*] %{$Green%}%n@%m %{$Cyan%}%~ %{$Blue%}%(!.#.$) %{$Norm%}%b"
+		fi
+	fi
+}
