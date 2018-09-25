@@ -24,6 +24,9 @@ optionally_source runrc
 optionally_source runrc
 optionally_source cdargs
 optionally_source check-for-mail
+optionally_source ssh-agent
+
+optionally_source emerge-on-ramdisk
 
 if test -f $ZSHRCDIR/dircolors; then
 	eval $(dircolors $ZSHRCDIR/dircolors)

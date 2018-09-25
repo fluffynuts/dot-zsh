@@ -1,0 +1,42 @@
+# vim: ft=sh
+
+if test ! -d ~/.ssh; then
+  mkdir ~/.ssh
+fi
+
+REFS_FILE=~/.ssh/references
+SOCKET_FILE=~/.ssh/ssh-agent.socket
+ENV_FILE=~/.ssh/ssh-agent.env
+
+function incr_refs() {
+  set_refs "+ 1"
+}
+function decr_refs() {
+  set_refs "- 1"
+}
+function set_refs() {
+  if test -f $REFS_FILE; then
+    let "REFS = $(cat $REFS_FILE) ${1}"
+  else
+    let "REFS = 0 ${1}"
+  fi
+  if test "$REFS" -lt 1; then
+    rm $REFS_FILE
+  else
+    echo $REFS > $REFS_FILE
+  fi
+}
+
+if test ! -f $REFS_FILE; then
+  ssh-agent -a $SOCKET_FILE | grep -v "^echo" > $ENV_FILE
+fi
+eval $(cat $ENV_FILE)
+incr_refs
+
+function zshexit() {
+  decr_refs
+  if test ! -f $REFS_FILE && test ! -z "$SSH_AGENT_PID"; then
+    kill $SSH_AGENT_PID
+  fi
+}
+
