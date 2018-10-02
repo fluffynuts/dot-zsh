@@ -47,3 +47,8 @@ optionally_source anaconda
 
 unset SSH_ASKPASS
 unfunction optionally_source
+
+if test -f ~/.secrets; then
+  source ~/.secrets
+fi
+
