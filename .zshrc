@@ -8,6 +8,7 @@ function optionally_source() {
     source "${ZSHRCDIR}/$1";
   fi
 }
+optionally_source runrc
 
 optionally_source envrc
 
@@ -20,8 +21,6 @@ optionally_source completionrc
 optionally_source compsys
 
 optionally_source optrc
-optionally_source runrc
-optionally_source runrc
 optionally_source cdargs
 optionally_source check-for-mail
 optionally_source ssh-agent
