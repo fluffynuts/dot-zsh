@@ -1,3 +1,4 @@
+# vim: ft=sh
 EMERGE=$(which emerge)
 if test -z "$PORTAGE_TMPDIR"; then
   export PORTAGE_TMPDIR=/var/tmp/portage
@@ -8,7 +9,7 @@ function mount_portage_tmpdir() {
     mkdir -p "$PORTAGE_TMPDIR"
   fi
   if test -z "$(mount | grep "$PORTAGE_TMPDIR")"; then
-    echo "mounting ramdisk..."
+    # echo "mounting ramdisk..."
     mount -t tmpfs -o size=8192m tmpfs "$PORTAGE_TMPDIR"
     export AUTO_MOUNTED_PORTAGE_TMPDIR=1
   else
@@ -17,6 +18,7 @@ function mount_portage_tmpdir() {
 }
 function umount_portage_tmpdir() {
   if test ! -z "$AUTO_MOUNTED_PORTAGE_TMPDIR"; then
+    # echo "unmounting ramdisk..."
     umount "$PORTAGE_TMPDIR"
   fi
 }
