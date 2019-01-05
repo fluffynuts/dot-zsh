@@ -16,12 +16,12 @@ if test "$(whoami)" = "root"; then
 	export _Yellow='[01;33m'
 else
 	export _Black='[22;30m'
-	export _Blue='[22;34m'
-	export _Green='[22;32m'
-	export _Cyan='[22;36m'
 	export _Red='[22;31m'
-	export _Purple='[22;35m'
+	export _Green='[22;32m'
 	export _Brown='[22;33m'
+	export _Blue='[01;34m'
+	export _Purple='[22;35m'
+	export _Cyan='[22;36m'
 	export _Gray='[22;37m'
 	export _Bold='[1m'
 	export _Norm='[0m'
@@ -35,27 +35,16 @@ fi
 #export PS1="[%n@%m %c]%# "
 
 export PS1="
-%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~ %{$_Blue%}%(!.#.$) %{$_Norm%}%b"
+%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~ %{$_Purple%}%(!.#.$) %{$_Norm%}%b"
 
-# TODO: add git info to end of prompt, ala posh-git
-function powerline_precmd() {
-export PS1="
-%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~ %{$_Blue%}%(!.#.$) %{$_Norm%}%b"
-}
-
-function install_powerline_precmd() {
-  if test ! -f "$(which powerline-shell)"; then
-    return
-  fi
-  for fn in "${precmd_functions[@]}"; do
-    if test "$s" = "powerline_precmd"; then
-      return
-    fi
-    precmd_functions+=(powerline_precmd)
-  done
-}
-
-if test "$TERM" != "linux"; then
-  install_powerline_precmd
+if test -e /usr/share/git/git-prompt.sh; then
+  export GIT_PS1_SHOWSTASHSTATE=1
+  export GIT_PS1_SHOWUNTRACKEDFILES=1
+  export GIT_PS1_SHOWUPSTREAM="auto"
+  export GIT_PS1_DESCRIBE_STYLE="branch"
+  export GIT_PS1_SHOWCOLORHINTS=1
+  source /usr/share/git/git-prompt.sh
+  precmd() {
+    __git_ps1 "%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%}" "%s %{$_Purple%}%(!.#.$) %{$_Norm%}%b"
+  }
 fi
-
