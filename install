@@ -1,4 +1,9 @@
 #!/bin/zsh
+if test -z "$HOME"; then
+  echo "No \$HOME set; aborting"
+  return 1
+fi
+
 BASE=$(dirname $0)
 function install-link() {
   SOURCE="${BASE}/$1"
@@ -19,6 +24,5 @@ function install-link() {
 install-link .zsh
 install-link .zshenv
 install-link .zshrc
-
 
 unfunction install-link
