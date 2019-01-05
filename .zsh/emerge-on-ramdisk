@@ -5,20 +5,20 @@ if test -z "$PORTAGE_TMPDIR"; then
 fi
 
 function mount_portage_tmpdir() {
-  if test ! -d "$PORTAGE_TMPDIR"; then
-    mkdir -p "$PORTAGE_TMPDIR"
-  fi
-  if test -z "$(mount | grep "$PORTAGE_TMPDIR")"; then
-    # echo "mounting ramdisk..."
-    mount -t tmpfs -o size=8192m tmpfs "$PORTAGE_TMPDIR"
-    export AUTO_MOUNTED_PORTAGE_TMPDIR=1
-  else
-    echo "$PORTAGE_TMPDIR already mounted"
+  if test "$(whoami)" = "root"; then
+    if test ! -d "$PORTAGE_TMPDIR"; then
+      mkdir -p "$PORTAGE_TMPDIR"
+    fi
+    if test -z "$(mount | grep "$PORTAGE_TMPDIR")"; then
+      mount -t tmpfs -o size=8192m tmpfs "$PORTAGE_TMPDIR"
+      export AUTO_MOUNTED_PORTAGE_TMPDIR=1
+    else
+      echo "$PORTAGE_TMPDIR already mounted"
+    fi
   fi
 }
 function umount_portage_tmpdir() {
   if test ! -z "$AUTO_MOUNTED_PORTAGE_TMPDIR"; then
-    # echo "unmounting ramdisk..."
     umount "$PORTAGE_TMPDIR"
   fi
 }
