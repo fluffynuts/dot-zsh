@@ -27,16 +27,18 @@ function set_refs() {
   fi
 }
 
-if test ! -f $REFS_FILE; then
-  ssh-agent -a $SOCKET_FILE | grep -v "^echo" > $ENV_FILE
-fi
-eval $(cat $ENV_FILE)
-incr_refs
+if test -z "$AUTO_SSH_AGENT" || test "$AUTO_SSH_AGENT" = 1 || test "$AUTO_SSH_AGENT" = "yes"; then
+ if test ! -f $REFS_FILE; then
+   ssh-agent -a $SOCKET_FILE | grep -v "^echo" > $ENV_FILE
+ fi
+ eval $(cat $ENV_FILE)
+ incr_refs
 
-function zshexit() {
-  decr_refs
-  if test ! -f $REFS_FILE && test ! -z "$SSH_AGENT_PID"; then
-    kill $SSH_AGENT_PID
-  fi
-}
+ function zshexit() {
+   decr_refs
+   if test ! -f $REFS_FILE && test ! -z "$SSH_AGENT_PID"; then
+     kill $SSH_AGENT_PID
+   fi
+ }
+fi
 
