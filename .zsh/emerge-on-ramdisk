@@ -1,30 +1,32 @@
 # vim: ft=sh
-EMERGE=$(which emerge)
-if test -z "$PORTAGE_TMPDIR"; then
-  export PORTAGE_TMPDIR=/var/tmp/portage
+if test "$(whoami)" = "root"; then
+  EMERGE=$(which emerge)
+  if test -z "$PORTAGE_TMPDIR"; then
+    export PORTAGE_TMPDIR=/var/tmp/portage
+  fi
+
+  function mount_portage_tmpdir() {
+    if test "$(whoami)" = "root"; then
+      if test ! -d "$PORTAGE_TMPDIR"; then
+        mkdir -p "$PORTAGE_TMPDIR"
+      fi
+      if test -z "$(mount | grep "$PORTAGE_TMPDIR")"; then
+        mount -t tmpfs -o size=8192m tmpfs "$PORTAGE_TMPDIR"
+        export AUTO_MOUNTED_PORTAGE_TMPDIR=1
+      else
+        echo "$PORTAGE_TMPDIR already mounted"
+      fi
+    fi
+  }
+  function umount_portage_tmpdir() {
+    if test ! -z "$AUTO_MOUNTED_PORTAGE_TMPDIR"; then
+      umount "$PORTAGE_TMPDIR"
+    fi
+  }
+
+  function emerge() {
+    mount_portage_tmpdir
+    $EMERGE $*  
+    umount_portage_tmpdir
+  }
 fi
-
-function mount_portage_tmpdir() {
-  if test "$(whoami)" = "root"; then
-    if test ! -d "$PORTAGE_TMPDIR"; then
-      mkdir -p "$PORTAGE_TMPDIR"
-    fi
-    if test -z "$(mount | grep "$PORTAGE_TMPDIR")"; then
-      mount -t tmpfs -o size=8192m tmpfs "$PORTAGE_TMPDIR"
-      export AUTO_MOUNTED_PORTAGE_TMPDIR=1
-    else
-      echo "$PORTAGE_TMPDIR already mounted"
-    fi
-  fi
-}
-function umount_portage_tmpdir() {
-  if test ! -z "$AUTO_MOUNTED_PORTAGE_TMPDIR"; then
-    umount "$PORTAGE_TMPDIR"
-  fi
-}
-
-function emerge() {
-  mount_portage_tmpdir
-  $EMERGE $*  
-  umount_portage_tmpdir
-}
