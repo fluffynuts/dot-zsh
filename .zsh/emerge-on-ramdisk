@@ -1,5 +1,5 @@
 # vim: ft=sh
-if test "$(whoami)" = "root"; then
+if test "$(whoami)" = "root" && test ! -z "$EMERGE_ON_RAMDISK"; then
   EMERGE=$(which emerge)
   if test -z "$PORTAGE_TMPDIR"; then
     export PORTAGE_TMPDIR=/var/tmp/portage
