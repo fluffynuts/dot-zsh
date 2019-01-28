@@ -11,8 +11,5 @@ function enable-nvm() {
   NODE_VERSION="$(nvm current)"
 }
 
-function nvm() {
-  enable-nvm
-  unfunction enable-nvm
-  nvm $@
-}
+# laziness doesn't seem to be necessary as of 0.34, which loads quite quickly
+enable-nvm

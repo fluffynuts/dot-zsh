@@ -9,9 +9,7 @@ function optionally_source() {
   fi
 }
 optionally_source runrc
-
 optionally_source envrc
-
 optionally_source keys
 optionally_source promptrc
 optionally_source aliasrc
@@ -26,6 +24,7 @@ optionally_source check-for-mail
 optionally_source ssh-agent
 
 optionally_source emerge-on-ramdisk
+
 
 if test -f $ZSHRCDIR/dircolors; then
 	eval $(dircolors $ZSHRCDIR/dircolors)

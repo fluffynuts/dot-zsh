@@ -14,3 +14,9 @@ path=($path $X11HOME/bin)
 path=($path /bin /usr/bin /usr/sbin /sbin /bin)
 path=($path /usr/local/bin)
 path=($path /home/daf/apps/scripts)
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+
+if test -e ~/.rvm/scripts/rvm; then
+  source ~/.rvm/scripts/rvm
+  export PATH="$PATH:$HOME/.rvm/bin"
+fi
