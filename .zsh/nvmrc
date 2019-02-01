@@ -3,7 +3,10 @@
 function enable-nvm() {
   NVM_DIR="${HOME}/.nvm"
   if test ! -d "${NVM_DIR}"; then
-      echo "nvm not found at ${HOME}/.nvm; perhaps you still need to download it?"
+      if test -z "$NO_NVM_WARN"; then
+          echo "nvm not found at ${HOME}/.nvm; perhaps you still need to download it?"
+          echo "(set NO_NVM_WARN to anything to disable this warning)"
+      fi
       exit
   fi
   export NVM_DIR
