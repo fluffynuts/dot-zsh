@@ -7,7 +7,7 @@ function enable-nvm() {
           echo "nvm not found at ${HOME}/.nvm; perhaps you still need to download it?"
           echo "(set NO_NVM_WARN to anything to disable this warning)"
       fi
-      exit
+      return
   fi
   export NVM_DIR
   [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"
