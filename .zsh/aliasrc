@@ -19,4 +19,6 @@ alias callgrind='valgrind --tool=callgrind'
 alias mc="LANG=en_US mc"
 alias vlc="/usr/bin/vlc --key-jump+medium \"Mouse Wheel Down\" --key-jump-medium \"Mouse Wheel Up\""
 alias path="echo \$PATH"
-alias code="visual-studio-code"
+if which visual-studio-code &> /dev/null; then
+  alias code="visual-studio-code"
+fi

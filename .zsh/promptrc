@@ -43,8 +43,29 @@ if test -e /usr/share/git/git-prompt.sh; then
   export GIT_PS1_SHOWUPSTREAM="auto"
   export GIT_PS1_DESCRIBE_STYLE="branch"
   export GIT_PS1_SHOWCOLORHINTS=1
-  source /usr/share/git/git-prompt.sh
-  precmd() {
-    __git_ps1 "%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%}" "%s %{$_Purple%}%(!.#.$) %{$_Norm%}%b"
-  }
+    source /usr/share/git/git-prompt.sh
+    precmd() {
+      __git_ps1 "%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%}" "%s %{$_Purple%}%(!.#.$) %{$_Norm%}%b"
+    }
+else
+    if test -z "$GIT_PROMPT_EXECUTABLE"; then
+      PROMPT="%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%}${GITINFO} ${MARKER} "
+    else
+      precmd() {
+        GITINFO="$(git_super_status)"
+        if test -n "$GITINFO"; then
+          if test -z "$GIT_BRANCH" || test "$GIT_BRANCH" = ":"; then
+            GITINFO=""
+          else
+            GITINFO=" $GITINFO"
+          fi
+        fi
+        if test "$(whoami)" = "root"; then
+          MARKER="%{$_Blue%}#%{$_Norm%}"
+        else
+          MARKER="%{$_Blue%}$%{$_Norm%}"
+        fi
+        PROMPT="%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%}${GITINFO} ${MARKER} "
+      }
+  fi
 fi

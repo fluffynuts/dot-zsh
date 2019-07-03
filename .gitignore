@@ -1,2 +1,3 @@
 # just in case; shouldn't actually be in here...
 .secrets
+*.swp
