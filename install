@@ -4,7 +4,7 @@ if test -z "$HOME"; then
   return 1
 fi
 
-BASE=$(dirname $0)
+BASE=$(realpath $(dirname $0))
 function install-link() {
   SOURCE="${BASE}/$1"
   TARGET="${HOME}/$1"
