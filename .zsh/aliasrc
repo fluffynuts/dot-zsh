@@ -21,4 +21,7 @@ alias vlc="/usr/bin/vlc --key-jump+medium \"Mouse Wheel Down\" --key-jump-medium
 alias path="echo \$PATH"
 if which visual-studio-code &> /dev/null; then
   alias code="visual-studio-code"
+elif which vscode &> /dev/null; then
+  alias code="vscode"
 fi
+alias nethogs='sudo -p "Your password is required to continue:" /usr/sbin/nethogs'
