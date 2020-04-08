@@ -44,7 +44,7 @@ GIT_PROMPT_ZSH_HOME=$MYDIR/externals/git-prompt
 echo "looking for git prompt in $GIT_PROMPT_ZSH_HOME"
 
 if test -e $GIT_PROMPT_ZSH_HOME; then
-  source $GIT_PROMPT_ZSH_HOME/git-prompt.zsh
+  source $GIT_PROMPT_ZSH_HOME
 elif test -e /usr/share/git/git-prompt.sh; then
   export GIT_PS1_SHOWSTASHSTATE=1
   export GIT_PS1_SHOWUNTRACKEDFILES=1
