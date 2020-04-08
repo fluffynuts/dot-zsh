@@ -40,11 +40,11 @@ export PS1="
 %B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~ %{$_Purple%}%(!.#.$) %{$_Norm%}%b"
 
 MYDIR=$(dirname $0)
-GIT_PROMPT_ZSH_HOME=$MYDIR/externals/git-prompt
-echo "looking for git prompt in $GIT_PROMPT_ZSH_HOME"
+GIT_PROMPT_ZSH_HOME="$MYDIR/externals/git-prompt"
+GIT_PROMPT_ZSH="$GIT_PROMPT_ZSH_HOME/git-prompt.zsh"
 
-if test -e $GIT_PROMPT_ZSH_HOME; then
-  source $GIT_PROMPT_ZSH_HOME
+if test -e "$GIT_PROMPT_ZSH"; then
+  source "$GIT_PROMPT_ZSH"
 elif test -e /usr/share/git/git-prompt.sh; then
   export GIT_PS1_SHOWSTASHSTATE=1
   export GIT_PS1_SHOWUNTRACKEDFILES=1
