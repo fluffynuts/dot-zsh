@@ -37,7 +37,13 @@ fi
 export PS1="
 %B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~ %{$_Purple%}%(!.#.$) %{$_Norm%}%b"
 
-if test -e /usr/share/git/git-prompt.sh; then
+MYDIR=$(dirname $0)
+GIT_PROMPT_ZSH_HOME=$MYDIR/externals/git-prompt
+echo "looking for git prompt in $GIT_PROMPT_ZSH_HOME"
+
+if test -e $GIT_PROMPT_ZSH_HOME; then
+  source $GIT_PROMPT_ZSH_HOME/git-prompt.zsh
+elif test -e /usr/share/git/git-prompt.sh; then
   export GIT_PS1_SHOWSTASHSTATE=1
   export GIT_PS1_SHOWUNTRACKEDFILES=1
   export GIT_PS1_SHOWUPSTREAM="auto"
@@ -47,25 +53,27 @@ if test -e /usr/share/git/git-prompt.sh; then
     precmd() {
       __git_ps1 "%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%}" "%s %{$_Purple%}%(!.#.$) %{$_Norm%}%b"
     }
-else
-    if test -z "$GIT_PROMPT_EXECUTABLE"; then
-      PROMPT="%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%}${GITINFO} ${MARKER} "
-    else
-      precmd() {
-        GITINFO="$(git_super_status)"
-        if test -n "$GITINFO"; then
-          if test -z "$GIT_BRANCH" || test "$GIT_BRANCH" = ":"; then
-            GITINFO=""
-          else
-            GITINFO=" $GITINFO"
-          fi
-        fi
-        if test "$(whoami)" = "root"; then
-          MARKER="%{$_Blue%}#%{$_Norm%}"
-        else
-          MARKER="%{$_Blue%}$%{$_Norm%}"
-        fi
-        PROMPT="%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%}${GITINFO} ${MARKER} "
-      }
-  fi
+  return
 fi
+
+function prompt_marker() {
+  if test "$(whoami)" = "root"; then
+    echo "%{$_Red%}❯%{$_Yellow%}❯%{$_White%}❯%{$_Norm%} "
+  else
+    echo "%{$_Blue%}❯%{$_Cyan%}❯%{$_Green%}❯%{$_Norm%} "
+  fi
+}
+
+if which gitprompt &> /dev/null; then
+  PROMPT="%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%} \$(gitprompt)\$(prompt_marker)"
+else
+  precmd() {
+    if test "$(whoami)" = "root"; then
+      MARKER="%{$_Blue%}#%{$_Norm%}"
+    else
+      MARKER="%{$_Blue%}$%{$_Norm%}"
+    fi
+    PROMPT="%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%}$(prompt_marker) "
+  }
+fi
+
