@@ -75,7 +75,7 @@ else
     else
       MARKER="%{$_Blue%}$%{$_Norm%}"
     fi
-    PROMPT="%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%}$(prompt_marker) "
+    PROMPT="%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%} $(prompt_marker)"
   }
 fi
 
