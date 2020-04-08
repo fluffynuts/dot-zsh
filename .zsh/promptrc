@@ -4,28 +4,30 @@
 # ANSI escapes for colors and attributes.
 if test "$(whoami)" = "root"; then
 	export _Black='[01;30m'
-	export _Blue='[01;34m'
-	export _Green='[01;32m'
-	export _Cyan='[01;36m'
 	export _Red='[01;31m'
-	export _Purple='[01;35m'
+	export _Green='[01;32m'
 	export _Brown='[01;33m'
-	export _Gray='[01;37m'
+	export _Yellow='[01;33m'
+	export _Blue='[01;34m'
+	export _Purple='[01;35m'
+	export _Cyan='[01;36m'
+	export _Gray='[22;37m'
+	export _White='[01;37m'
 	export _Bold='[1m'
 	export _Norm='[0m'
-	export _Yellow='[01;33m'
 else
 	export _Black='[22;30m'
 	export _Red='[22;31m'
 	export _Green='[22;32m'
 	export _Brown='[22;33m'
+	export _Yellow='[22;33m'
 	export _Blue='[01;34m'
 	export _Purple='[22;35m'
 	export _Cyan='[22;36m'
 	export _Gray='[22;37m'
+	export _White='[01;37m'
 	export _Bold='[1m'
 	export _Norm='[0m'
-	export _Yellow='[22;33m'
 fi
 
 # A rather boring prompt.
@@ -58,7 +60,7 @@ fi
 
 function prompt_marker() {
   if test "$(whoami)" = "root"; then
-    echo "%{$_Red%}❯%{$_Yellow%}❯%{$_White%}❯%{$_Norm%} "
+    echo "%{$_White%}❯%{$_Yellow%}❯%{$_Red%}❯%{$_Norm%} "
   else
     echo "%{$_Blue%}❯%{$_Cyan%}❯%{$_Green%}❯%{$_Norm%} "
   fi
