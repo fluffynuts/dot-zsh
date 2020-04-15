@@ -60,9 +60,9 @@ fi
 
 function prompt_marker() {
   if test "$(whoami)" = "root"; then
-    echo "%{$_White%}❯%{$_Yellow%}❯%{$_Red%}❯%{$_Norm%} "
+    echo "%{$_Red%}❯%{$_Norm%} "
   else
-    echo "%{$_Blue%}❯%{$_Cyan%}❯%{$_Green%}❯%{$_Norm%} "
+    echo "%{$_Blue%}❯%{$_Norm%} "
   fi
 }
 
