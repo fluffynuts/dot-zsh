@@ -12,7 +12,4 @@ export python_bin=python
 export PYTHON_BIN=python
 export LC_ALL="en_US.UTF-8"
 
-DOTNET_ROOT=/opt/dotnet_core
-if test -d $DOTNET_ROOT; then
-  export DOTNET_ROOT
-fi
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
