@@ -25,3 +25,5 @@ elif which vscode &> /dev/null; then
   alias code="vscode"
 fi
 alias nethogs='sudo -p "Your password is required to continue:" /usr/sbin/nethogs'
+# make eix search everything
+alias eix='eix -y'
