@@ -5,11 +5,16 @@
 alias ls='ls --color=auto'
 alias cp='cp -v'
 alias gmc='gmc --nodesktop'
-alias du='du * | sort -gr | less'
 alias df='df -h'
 alias mv='mv -v'
 alias xboard='xboard -size Bulky'
 alias mpg321='mpg321 -v '
+# function works better because args are passed
+# to du rather than less
+#alias du='du * | sort -gr | less'
+function du() {
+  env du * "$@" | sort -gr | less
+}
 
 alias crontab='EDITOR=vim crontab'
 #alias glxgears='glxgears -printfps'

@@ -30,52 +30,49 @@ else
 	export _Norm='[0m'
 fi
 
-# A rather boring prompt.
-#export PS1="%m%# "
-
-# Something more interesting
-#export PS1="[%n@%m %c]%# "
-
-export PS1="
-%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~ %{$_Purple%}%(!.#.$) %{$_Norm%}%b"
-
-MYDIR=$(dirname $0)
-GIT_PROMPT_ZSH_HOME="$MYDIR/externals/git-prompt"
-GIT_PROMPT_ZSH="$GIT_PROMPT_ZSH_HOME/git-prompt.zsh"
-
-if test -e "$GIT_PROMPT_ZSH"; then
-  source "$GIT_PROMPT_ZSH"
-elif test -e /usr/share/git/git-prompt.sh; then
-  export GIT_PS1_SHOWSTASHSTATE=1
-  export GIT_PS1_SHOWUNTRACKEDFILES=1
-  export GIT_PS1_SHOWUPSTREAM="auto"
-  export GIT_PS1_DESCRIBE_STYLE="branch"
-  export GIT_PS1_SHOWCOLORHINTS=1
-    source /usr/share/git/git-prompt.sh
-    precmd() {
-      __git_ps1 "%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%}" "%s %{$_Purple%}%(!.#.$) %{$_Norm%}%b"
-    }
-  return
-fi
-
-function prompt_marker() {
-  if test "$(whoami)" = "root"; then
-    echo "%{$_Red%}>%{$_Norm%} "
-  else
-    echo "%{$_Purple%}>%{$_Norm%} "
-  fi
-}
-
-if which gitprompt &> /dev/null; then
-  PROMPT="%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%} \$(gitprompt)\$(prompt_marker)"
+P10K=$ZSHRCDIR/externals/powerlevel10k//powerlevel10k.zsh-theme
+if test ! -z "$USE_POWERLEVEL10K" && test -e $P10K; then
+  source $P10K
 else
-  precmd() {
-    if test "$(whoami)" = "root"; then
-      MARKER="%{$_Blue%}#%{$_Norm%}"
-    else
-      MARKER="%{$_Blue%}$%{$_Norm%}"
-    fi
-    PROMPT="%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%} $(prompt_marker)"
-  }
-fi
+  export PS1="
+  %B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~ %{$_Purple%}%(!.#.$) %{$_Norm%}%b"
 
+  GIT_PROMPT_ZSH_HOME="$ZSHRCDIR/externals/git-prompt"
+  GIT_PROMPT_ZSH="$GIT_PROMPT_ZSH_HOME/git-prompt.zsh"
+
+  if test -e "$GIT_PROMPT_ZSH"; then
+    source "$GIT_PROMPT_ZSH"
+  elif test -e /usr/share/git/git-prompt.sh; then
+    export GIT_PS1_SHOWSTASHSTATE=1
+    export GIT_PS1_SHOWUNTRACKEDFILES=1
+    export GIT_PS1_SHOWUPSTREAM="auto"
+    export GIT_PS1_DESCRIBE_STYLE="branch"
+    export GIT_PS1_SHOWCOLORHINTS=1
+      source /usr/share/git/git-prompt.sh
+      precmd() {
+        __git_ps1 "%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%}" "%s %{$_Purple%}%(!.#.$) %{$_Norm%}%b"
+      }
+    return
+  fi
+
+  function prompt_marker() {
+    if test "$(whoami)" = "root"; then
+      echo "%{$_Red%}>%{$_Norm%} "
+    else
+      echo "%{$_Purple%}>%{$_Norm%} "
+    fi
+  }
+
+  if which gitprompt &> /dev/null; then
+    PROMPT="%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%} \$(gitprompt)\$(prompt_marker)"
+  else
+    precmd() {
+      if test "$(whoami)" = "root"; then
+        MARKER="%{$_Blue%}#%{$_Norm%}"
+      else
+        MARKER="%{$_Blue%}$%{$_Norm%}"
+      fi
+      PROMPT="%B%{$_Yellow%}[%*] %{$_Green%}%n@%m %{$_Cyan%}%~%{$_Norm%} $(prompt_marker)"
+    }
+  fi
+fi
