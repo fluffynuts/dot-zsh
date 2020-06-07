@@ -53,12 +53,10 @@ optionally_source anaconda
 
 unset SSH_ASKPASS
 optionally_source kbrd
+optionally_source p10k
 unfunction optionally_source
 
 if test -f ~/.secrets; then
   source ~/.secrets
 fi
 
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
