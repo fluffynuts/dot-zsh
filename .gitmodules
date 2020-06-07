@@ -3,4 +3,4 @@
 	url = https://github.com/fluffynuts/git-prompt.zsh
 [submodule ".zsh/externals/powerlevel10k"]
 	path = .zsh/externals/powerlevel10k
-	url = ssh://git@github.com/romkatv/powerlevel10k
+	url = https://github.com/romkatv/powerlevel10k
