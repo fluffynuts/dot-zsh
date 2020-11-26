@@ -8,3 +8,9 @@ if test "$TERM" = "xterm"; then
   bindkey "\e[4~" end-of-line        # End
   bindkey "\e[8~" end-of-line        # End rxvt
 fi
+
+# unbind alt-<number> (which repeats a string)
+# in favor of working panels in lazygit
+for ((i=0;$i<11;i++)); do
+  bindkey -r "^[$i"
+done
