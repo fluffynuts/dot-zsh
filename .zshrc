@@ -16,6 +16,7 @@ function optionally_source() {
     source "${ZSHRCDIR}/$1";
   fi
 }
+optionally_source functions
 optionally_source runrc
 optionally_source envrc
 optionally_source keys

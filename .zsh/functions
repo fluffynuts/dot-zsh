@@ -1,0 +1,12 @@
+mkqr()
+{
+  INPUT="${1:-$(</dev/stdin)}"
+  if test -z "$INPUT"; then
+    INPUT="$@"
+  fi
+  if test -z "$INPUT"; then
+    echo "no input found"
+    return
+  fi
+  printf "$INPUT" | curl -F-=\<- qrenco.de
+}
