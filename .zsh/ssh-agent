@@ -29,7 +29,11 @@ function set_refs() {
 
 if test -z "$AUTO_SSH_AGENT" || test "$AUTO_SSH_AGENT" = 1 || test "$AUTO_SSH_AGENT" = "yes"; then
  if test ! -f $REFS_FILE; then
-   ssh-agent -a $SOCKET_FILE | grep -v "^echo" > $ENV_FILE
+   if pidof ssh-agent > /dev/null; then
+    incr_refs
+   else
+     ssh-agent -a $SOCKET_FILE | grep -v "^echo" > $ENV_FILE
+   fi
  fi
  eval $(cat $ENV_FILE)
  incr_refs

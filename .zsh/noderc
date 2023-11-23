@@ -1,0 +1,34 @@
+NVM_HOME="${HOME}/.nvm"
+NVS_HOME="$HOME/.nvs"
+
+function enable-nvm() {
+  if test ! -d "${NVM_HOME}"; then
+      if test -z "$NO_NVM_WARN"; then
+          echo "nvm not found at ${HOME}/.nvm; perhaps you still need to download it?"
+          echo "(set NO_NVM_WARN to anything to disable this warning)"
+      fi
+      return
+  fi
+  export NVM_DIR
+  [ -s "${NVM_HOME}/nvm.sh" ] && \. "${NVM_HOME}/nvm.sh"
+  NODE_VERSION="$(nvm current)"
+}
+
+function enable-nvs()
+{
+  NVS_SH="$NVS_HOME/nvs.sh"
+
+  if test -s "$NVS_SH"; then
+    NVS_EXECUTE=1 source "$NVS_SH"
+    nvs auto on
+  fi
+}
+
+if read_env_flag "$PREFER_NVM"; then
+  enable-nvm
+else
+  enable-nvs
+fi
+
+
+

@@ -49,7 +49,7 @@ if test -e "$COMMAND_NOT_FOUND"; then
 fi
 
 # programming environments / tools
-optionally_source nvmrc
+optionally_source noderc
 optionally_source anaconda
 
 unset SSH_ASKPASS
@@ -61,3 +61,12 @@ if test -f ~/.secrets; then
   source ~/.secrets
 fi
 
+if test -d ~/.dotnet/tools; then
+  export PATH="$PATH:~/.dotnet/tools"
+fi
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# To customize prompt, run `p10k configure` or edit ~/.zsh/p10k.
+[[ ! -f ~/.zsh/p10k ]] || source ~/.zsh/p10k

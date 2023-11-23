@@ -10,3 +10,22 @@ mkqr()
   fi
   printf "$INPUT" | curl -F-=\<- qrenco.de
 }
+ function read_env_flag()
+ {
+   lower=$(echo "$1" | tr [:upper:] [:lower:])
+   case "$lower" in
+     "y" | "yes" | "true" | "enable" | "1")
+       return 0
+       ;;
+     "n"| "no"| "false"| "disable" | "0")
+       return 1
+       ;;
+     "")
+       return 1
+       ;;
+     *)
+       echo "'$1' is not a valid flag value (select from y/yes/true/enable/1 or n/no/false/disable/0"
+       exit 2
+     ;;
+   esac
+ }
