@@ -8,41 +8,43 @@ REFS_FILE=~/.ssh/references
 SOCKET_FILE=~/.ssh/ssh-agent.socket
 ENV_FILE=~/.ssh/ssh-agent.env
 
-function incr_refs() {
-  set_refs "+ 1"
-}
-function decr_refs() {
-  set_refs "- 1"
-}
-function set_refs() {
-  if test -f $REFS_FILE; then
-    let "REFS = $(cat $REFS_FILE) ${1}"
-  else
-    let "REFS = 0 ${1}"
-  fi
-  if test "$REFS" -lt 1; then
-    rm $REFS_FILE
-  else
-    echo $REFS > $REFS_FILE
-  fi
-}
+if test -f "$ENV_FILE"; then
+  function incr_refs() {
+    set_refs "+ 1"
+  }
+  function decr_refs() {
+    set_refs "- 1"
+  }
+  function set_refs() {
+    if test -f $REFS_FILE; then
+      let "REFS = $(cat $REFS_FILE) ${1}"
+    else
+      let "REFS = 0 ${1}"
+    fi
+    if test "$REFS" -lt 1; then
+      rm $REFS_FILE
+    else
+      echo $REFS > $REFS_FILE
+    fi
+  }
 
-if test -z "$AUTO_SSH_AGENT" || test "$AUTO_SSH_AGENT" = 1 || test "$AUTO_SSH_AGENT" = "yes"; then
- if test ! -f $REFS_FILE; then
-   if pidof ssh-agent > /dev/null; then
-    incr_refs
-   else
-     ssh-agent -a $SOCKET_FILE | grep -v "^echo" > $ENV_FILE
+  if test -z "$AUTO_SSH_AGENT" || test "$AUTO_SSH_AGENT" = 1 || test "$AUTO_SSH_AGENT" = "yes"; then
+   if test ! -f $REFS_FILE; then
+     if pidof ssh-agent > /dev/null; then
+      incr_refs
+     else
+       ssh-agent -a $SOCKET_FILE | grep -v "^echo" > $ENV_FILE
+     fi
    fi
- fi
- eval $(cat $ENV_FILE)
- incr_refs
+   eval $(cat $ENV_FILE)
+   incr_refs
 
- function zshexit() {
-   decr_refs
-   if test ! -f $REFS_FILE && test ! -z "$SSH_AGENT_PID"; then
-     kill $SSH_AGENT_PID
-   fi
- }
+   function zshexit() {
+     decr_refs
+     if test ! -f $REFS_FILE && test ! -z "$SSH_AGENT_PID"; then
+       kill $SSH_AGENT_PID
+     fi
+   }
+  fi
 fi
 
