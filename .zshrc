@@ -65,6 +65,11 @@ if test -d ~/.dotnet/tools; then
   export PATH="$PATH:~/.dotnet/tools"
 fi
 
+DOTBINS="$HOME/.dotbins/shell/zsh.sh"
+if test -f "$DOTBINS"; then
+  source "$DOTBINS"
+fi
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
