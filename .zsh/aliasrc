@@ -50,11 +50,3 @@ alias ssb='echo b | ss'
 alias ssc='echo c | ss'
 alias lg='lazygit'
 alias r2modman='r2modman --no-sandbox'
-
-if which run-jetbrains-product &> /dev/null; then
-  for f in webstorm rider datagrip; do
-    if test ! -e ~/.local/bin/$f; then
-      alias $f="run-jetbrains-product $f"
-    fi
-  done
-fi
