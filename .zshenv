@@ -13,7 +13,7 @@ export X11HOME=/usr/X11R6
 path=($path $X11HOME/bin)
 path=($path /bin /usr/bin /usr/sbin /sbin /bin)
 path=($path /usr/local/bin)
-path=($path /home/daf/apps/scripts)
+path=($path /home/$USER/apps/scripts)
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 
 if test -e ~/.rvm/scripts/rvm; then
