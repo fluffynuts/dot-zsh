@@ -40,7 +40,7 @@ elif which vscode &> /dev/null; then
 elif which vscodium &> /dev/null; then
   alias code="vscodium"
 fi
-alias nethogs='sudo -p "Your password is required to continue:" /usr/sbin/nethogs'
+alias nethogs='sudo -p "Your password is required to continue:" /usr/bin/nethogs'
 # make eix search everything
 alias eix='eix -y'
 alias dlr='wget --no-parent --continue --user "${WGET_USER}" --password "${WGET_PASS}" -r'
