@@ -10,8 +10,6 @@ bindkey -e
 #	most likely be set by the system profile, since that (by default) doesn't
 #	care about overwriting already set variables
 
-_PATH=$PATH
-
 if [ "$PS1" != "" ]; then
 	BACKUP_PS1=$PS1
 fi
@@ -24,5 +22,3 @@ export PS1=$BACKUP_PS1
 if [ -e $HOME/.profile ]; then
 	source $HOME/.profile
 fi
-
-export PATH="$PATH:$_PATH"
