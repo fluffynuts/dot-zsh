@@ -15,3 +15,4 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export EDITOR=`which vim`
 export MAX_CONCURRENCY=6
 export NODE_OPTIONS="--max-old-space-size=16384"
+export TEMPDB_PORT_HINT=13000
