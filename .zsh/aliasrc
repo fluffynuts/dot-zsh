@@ -59,3 +59,16 @@ alias datagrip='run-jetbrains-product datagrip'
 alias android-studio='run-jetbrains-product studio'
 alias release-pull-request='npx -y release-pull-request'
 alias history='history 0'
+alias act='act -P ubuntu-latest=-self-hosted'
+
+case "$XDG_SESSION_TYPE" in
+  "x11")
+    alias clip="xclip"
+    ;;
+  "wayland")
+    alias clip="wl-copy"
+    ;;
+  *)
+    # no clip for tty or any other unknown value
+    ;;
+esac
