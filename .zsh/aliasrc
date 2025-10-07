@@ -50,16 +50,16 @@ alias ssb='echo b | ss'
 alias ssc='echo c | ss'
 alias lg='lazygit'
 alias r2modman='r2modman --no-sandbox'
-alias c#='csharprepl'
 alias apt='auto-sudo-apt'
 alias update-grub='auto-sudo update-grub'
 alias webstorm='run-jetbrains-product webstorm'
 alias rider='run-jetbrains-product rider'
 alias datagrip='run-jetbrains-product datagrip'
 alias android-studio='run-jetbrains-product studio'
+alias pycharm='run-jetbrains-product pycharm'
 alias release-pull-request='npx -y release-pull-request'
 alias history='history 0'
-alias act='act -P ubuntu-latest=-self-hosted'
+alias which-branch-owns='git branch -a --contains'
 
 case "$XDG_SESSION_TYPE" in
   "x11")
@@ -72,3 +72,4 @@ case "$XDG_SESSION_TYPE" in
     # no clip for tty or any other unknown value
     ;;
 esac
+alias check-git="scan-git ~/code/codeo ~/code/opensource"

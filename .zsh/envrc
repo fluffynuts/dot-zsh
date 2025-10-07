@@ -17,3 +17,5 @@ export MAX_CONCURRENCY=6
 export NODE_OPTIONS="--max-old-space-size=16384"
 export TEMPDB_PORT_HINT=13000
 export ANDROID_HOME="${HOME}/Android/Sdk"
+export GOPATH=$HOME/.go
+export PATH=$PATH:$GOPATH/bin
