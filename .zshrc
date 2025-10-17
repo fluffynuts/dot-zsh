@@ -51,6 +51,7 @@ fi
 # programming environments / tools
 optionally_source noderc
 optionally_source anaconda
+optionally_source rubyrc
 
 unset SSH_ASKPASS
 optionally_source kbrd
