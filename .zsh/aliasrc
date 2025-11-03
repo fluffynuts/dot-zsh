@@ -72,4 +72,5 @@ case "$XDG_SESSION_TYPE" in
     # no clip for tty or any other unknown value
     ;;
 esac
-alias check-git="scan-git ~/code/codeo ~/code/opensource"
+alias check-git="scan-git ~/code/codeo ~/code/opensource --ignore git-broadcast --ignore PeanutButter.TrayIcon --ignore detached-point-arithmetic --ignore phoenix.upgrade --ignore convert-type-imports"
+alias elevate-firefox="renice-all firefox-bin -17"
