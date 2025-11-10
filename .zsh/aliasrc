@@ -74,3 +74,4 @@ case "$XDG_SESSION_TYPE" in
 esac
 alias check-git="scan-git ~/code/codeo ~/code/opensource --ignore git-broadcast --ignore PeanutButter.TrayIcon --ignore detached-point-arithmetic --ignore phoenix.upgrade --ignore convert-type-imports"
 alias elevate-firefox="renice-all firefox-bin -17"
+alias start="xdg-open"
