@@ -19,6 +19,7 @@ export TEMPDB_PORT_HINT=13000
 export ANDROID_HOME="${HOME}/Android/Sdk"
 export GOPATH=$HOME/.go
 export PATH=$PATH:$GOPATH/bin
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 if which mise &> /dev/null; then
   eval "$(mise activate zsh)"
