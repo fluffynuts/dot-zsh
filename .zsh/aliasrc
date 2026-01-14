@@ -77,8 +77,9 @@ alias elevate-firefox="renice-all firefox -17"
 alias start="xdg-open"
 
 function npm() {
-  SEARCH=$(pwd)
-  NPM=$(/usr/bin/which npm)
+  SEARCH="$(pwd)"
+  WHICH="$(which -p npm)"
+  NPM=$("$WHICH" npm)
   while test "$SEARCH" != "/"; do
     LOCKFILE="$SEARCH/pnpm-lock.yaml"
     if test -f "$LOCKFILE"; then
