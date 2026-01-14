@@ -75,3 +75,22 @@ esac
 alias check-git="scan-git ~/code/codeo ~/code/opensource --ignore git-broadcast --ignore PeanutButter.TrayIcon --ignore detached-point-arithmetic --ignore phoenix.upgrade --ignore convert-type-imports --ignore newts"
 alias elevate-firefox="renice-all firefox -17"
 alias start="xdg-open"
+
+function npm() {
+  SEARCH=$(pwd)
+  NPM=$(/usr/bin/which npm)
+  while test "$SEARCH" != "/"; do
+    LOCKFILE="$SEARCH/pnpm-lock.yaml"
+    if test -f "$LOCKFILE"; then
+      NPM=$(/usr/bin/which pnpm)
+      echo "using pnpm - lock found at: $LOCKFILE"
+      break;
+    fi
+    if test -f "$SEARCH/package-lock.json"; then
+      break;
+    fi
+    SEARCH=$(dirname "$SEARCH")
+  done
+  $NPM $*
+}
+
