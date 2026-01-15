@@ -78,12 +78,14 @@ alias start="xdg-open"
 
 function npm() {
   SEARCH="$(pwd)"
-  WHICH="$(which -p npm)"
+  WHICH="$(which -p which)"
   NPM=$("$WHICH" npm)
+  USING_PNPM=0
   while test "$SEARCH" != "/"; do
     LOCKFILE="$SEARCH/pnpm-lock.yaml"
     if test -f "$LOCKFILE"; then
-      NPM=$(/usr/bin/which pnpm)
+      NPM=$("$WHICH" pnpm)
+      USING_PNPM=1
       echo "using pnpm - lock found at: $LOCKFILE"
       break;
     fi
@@ -92,6 +94,10 @@ function npm() {
     fi
     SEARCH=$(dirname "$SEARCH")
   done
-  $NPM $*
+  if test "$1" = "ci" && test "$USING_PNPM" = "1"; then
+    $NPM i ${*:2} --frozen-lockfile
+  else
+    $NPM $*
+  fi
 }
 
