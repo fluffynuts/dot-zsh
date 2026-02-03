@@ -81,19 +81,21 @@ function npm() {
   WHICH="$(which -p which)"
   NPM=$("$WHICH" npm)
   USING_PNPM=0
-  while test "$SEARCH" != "/"; do
-    LOCKFILE="$SEARCH/pnpm-lock.yaml"
-    if test -f "$LOCKFILE"; then
-      NPM=$("$WHICH" pnpm)
-      USING_PNPM=1
-      echo "using pnpm - lock found at: $LOCKFILE"
-      break;
-    fi
-    if test -f "$SEARCH/package-lock.json"; then
-      break;
-    fi
-    SEARCH=$(dirname "$SEARCH")
-  done
+  if test "$FORCE_NPM" != "1"; then
+    while test "$SEARCH" != "/"; do
+      LOCKFILE="$SEARCH/pnpm-lock.yaml"
+      if test -f "$LOCKFILE"; then
+        NPM=$("$WHICH" pnpm)
+        USING_PNPM=1
+        echo "using pnpm - lock found at: $LOCKFILE"
+        break;
+      fi
+      if test -f "$SEARCH/package-lock.json"; then
+        break;
+      fi
+      SEARCH=$(dirname "$SEARCH")
+    done
+  fi
   if test "$1" = "ci" && test "$USING_PNPM" = "1"; then
     $NPM i ${*:2} --frozen-lockfile
   else
