@@ -1,5 +1,15 @@
 autoload -U compinit
 compinit
 source "$(dirname $0)/pnpm-completion"
-# --- Register the completion (must be after compinit) ---
+# pnpm completions
 compdef _npm_or_pnpm npm
+
+if which service-uptime &> /dev/null; then
+  # service-uptime completions
+  _service-uptime() {
+      local -a services
+      services=( /etc/init.d/*(N:t) )
+      _describe 'service' services
+  }
+  compdef _service-uptime service-uptime
+fi
