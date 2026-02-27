@@ -1,2 +1,5 @@
 autoload -U compinit
 compinit
+source "$(dirname $0)/pnpm-completion"
+# --- Register the completion (must be after compinit) ---
+compdef _npm_or_pnpm npm

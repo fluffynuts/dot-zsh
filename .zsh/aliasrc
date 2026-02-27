@@ -76,30 +76,50 @@ alias check-git="scan-git ~/code/codeo ~/code/opensource --ignore git-broadcast 
 alias elevate-firefox="renice-all firefox -17"
 alias start="xdg-open"
 
-function npm() {
-  SEARCH="$(pwd)"
-  WHICH="$(which -p which)"
-  NPM=$("$WHICH" npm)
-  USING_PNPM=0
-  if test "$FORCE_NPM" != "1"; then
-    while test "$SEARCH" != "/"; do
-      LOCKFILE="$SEARCH/pnpm-lock.yaml"
-      if test -f "$LOCKFILE"; then
-        NPM=$("$WHICH" pnpm)
-        USING_PNPM=1
-        echo "using pnpm - lock found at: $LOCKFILE"
-        break;
-      fi
-      if test -f "$SEARCH/package-lock.json"; then
-        break;
-      fi
-      SEARCH=$(dirname "$SEARCH")
-    done
-  fi
-  if test "$1" = "ci" && test "$USING_PNPM" = "1"; then
-    $NPM i ${*:2} --frozen-lockfile
-  else
-    $NPM $*
-  fi
+function npm () {
+	SEARCH="$(pwd)"
+	WHICH="$(which -p which)"
+	NPM=$("$WHICH" npm)
+	USING_PNPM=0
+	if test "$FORCE_NPM" != "1"
+	then
+		while test "$SEARCH" != "/"
+		do
+			LOCKFILE="$SEARCH/pnpm-lock.yaml"
+			if test -f "$LOCKFILE"
+			then
+				NPM=$("$WHICH" pnpm)
+				USING_PNPM=1
+				echo "using pnpm - lock found at: $LOCKFILE"
+				break
+			fi
+			if test -f "$SEARCH/package-lock.json"
+			then
+				break
+			fi
+			SEARCH=$(dirname "$SEARCH")
+		done
+	fi
+	if test "$1" = "ci" && test "$USING_PNPM" = "1"
+	then
+		$NPM i ${*:2} --frozen-lockfile
+	else
+		$NPM $*
+	fi
 }
 
+# --- Context-aware completion function ---
+_npm_or_pnpm() {
+	local search="$(pwd)"
+	while [[ "$search" != "/" ]]; do
+		if [[ -f "$search/pnpm-lock.yaml" ]]; then
+			_pnpm_completion "$@"
+			return
+		fi
+		if [[ -f "$search/package-lock.json" ]]; then
+			break
+		fi
+		search=$(dirname "$search")
+	done
+	_npm "$@"
+}
