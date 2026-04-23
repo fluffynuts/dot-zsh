@@ -29,3 +29,65 @@ mkqr()
      ;;
    esac
  }
+
+dircmp() {
+  local a="$1" b="$2"
+
+  if [[ ! -d "$a" || ! -d "$b" ]]; then
+    echo "dircmp: both arguments must be directories" >&2
+    return 2
+  fi
+
+  # Collect all relative file paths present in either tree
+  local all_files
+  all_files=$( {
+    (cd "$a" && find . -type f -printf '%P\n')
+    (cd "$b" && find . -type f -printf '%P\n')
+  } | sort -u )
+
+  # Collect the files diff flagged (as relative paths)
+  local flagged
+  flagged=$(
+    diff -rq "$a" "$b" 2>/dev/null | awk -v a="$a" -v b="$b" '
+      $0 ~ "^Only in " a {
+        path = substr($0, length("Only in " a) + 1)
+        sub(/^: /, "", path); sub(/^\//, "", path)
+        print path; next
+      }
+      $0 ~ "^Only in " b {
+        path = substr($0, length("Only in " b) + 1)
+        sub(/^: /, "", path); sub(/^\//, "", path)
+        print path; next
+      }
+      /^Files / {
+        # "Files A/x/y and B/x/y differ" — strip A/ prefix to get relative path
+        match($0, /^Files (.+) and (.+) differ$/, m)
+        path = m[1]
+        sub("^" a "/", "", path)
+        print path; next
+      }
+    ' | sort -u
+  )
+
+  # Now emit in one pass, classifying each file
+  diff -rq "$a" "$b" 2>/dev/null | awk -v a="$a" -v b="$b" '
+    $0 ~ "^Only in " a {
+      path = substr($0, length("Only in " a) + 1)
+      sub(/^: /, "/", path); sub(/^\//, "", path)
+      print "removed: " path; next
+    }
+    $0 ~ "^Only in " b {
+      path = substr($0, length("Only in " b) + 1)
+      sub(/^: /, "/", path); sub(/^\//, "", path)
+      print "new:     " path; next
+    }
+    /^Files / {
+      match($0, /^Files (.+) and (.+) differ$/, m)
+      path = m[1]; sub("^" a "/", "", path)
+      print "changed: " path; next
+    }
+  ' | sort
+
+  # Then emit unchanged = (all_files) - (flagged)
+  comm -23 <(echo "$all_files") <(echo "$flagged") | sed 's/^/unchanged: /'
+}
