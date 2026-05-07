@@ -73,3 +73,4 @@ fi
 
 # To customize prompt, run `p10k configure` or edit ~/.zsh/p10k.
 [[ ! -f ~/.zsh/p10k ]] || source ~/.zsh/p10k
+[ -f .node-version ] || [ -f .nvmrc ] && nvs auto
