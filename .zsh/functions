@@ -1,3 +1,4 @@
+#vim: set filetype=zsh:
 mkqr()
 {
   INPUT="${1:-$(</dev/stdin)}"
@@ -90,4 +91,30 @@ dircmp() {
 
   # Then emit unchanged = (all_files) - (flagged)
   comm -23 <(echo "$all_files") <(echo "$flagged") | sed 's/^/unchanged: /'
+}
+
+notify() {
+  local threshold=${NOTIFY_THRESHOLD:-60}
+  local start_time=$(date +%s)
+  "$@"
+  local exit_code=$?
+  local elapsed=$(($(date +%s) - start_time))
+
+  if [ $elapsed -ge $threshold ]; then
+    if [ $exit_code -eq 0 ]; then
+      if test -f "~/.zsh/success.mp3"; then
+        paplay "~/.zsh/success.mp3" &
+      else
+        paplay /usr/share/sounds/freedesktop/stereo/complete.oga &
+      fi
+    else
+      if test -f "~/.zsh/fail.mp3"; then
+        paplay "~/.zsh/fail.mp3" &
+      else
+        paplay /usr/share/sounds/freedesktop/stereo/service-logout.oga &
+      fi
+    fi
+  fi
+
+  return $exit_code
 }
