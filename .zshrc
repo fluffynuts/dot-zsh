@@ -33,6 +33,7 @@ optionally_source check-for-mail
 optionally_source ssh-agent
 
 optionally_source emerge-on-ramdisk
+optionally_source auto-secrets
 
 
 if test -f $ZSHRCDIR/dircolors; then
