@@ -105,5 +105,5 @@ esac
 setopt interactive_comments
 # pnpm end
 if test -r ~/.zshrc-local; then
-  source ~/.zsh-local
+  source ~/.zshrc-local
 fi
