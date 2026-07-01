@@ -33,6 +33,7 @@ optionally_source check-for-mail
 optionally_source ssh-agent
 
 optionally_source emerge-on-ramdisk
+optionally_source auto-secrets
 
 
 if test -f $ZSHRCDIR/dircolors; then
@@ -58,9 +59,28 @@ optionally_source kbrd
 optionally_source p10k
 unfunction optionally_source
 
-if test -f ~/.secrets; then
-  source ~/.secrets
-fi
+function enable-secrets()
+{
+  if test -f ~/.secrets; then
+    source ~/.secrets
+  else
+    echo "You have no ~/.secrets file"
+  fi
+}
+
+function disable-secrets()
+{
+  if ! test -f ~/.secrets; then
+    echo "You have no ~/.secrets file"
+    return
+  fi
+  for ENV_VAR in $(grep export ~/.secrets | awk '{print $2}' | sed -e 's/=.*//'); do
+    unset $ENV_VAR
+  done
+  if test -e ~/.zsh/envrc; then
+    source ~/.zsh/envrc
+  fi
+}
 
 if test -d ~/.dotnet/tools; then
   export PATH="$PATH:~/.dotnet/tools"
@@ -73,3 +93,17 @@ fi
 
 # To customize prompt, run `p10k configure` or edit ~/.zsh/p10k.
 [[ ! -f ~/.zsh/p10k ]] || source ~/.zsh/p10k
+[ -f .node-version ] || [ -f .nvmrc ] && nvs auto
+
+# pnpm
+export PNPM_HOME="/home/davydm/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# ignore comments pasted into the cli
+setopt interactive_comments
+# pnpm end
+if test -r ~/.zshrc-local; then
+  source ~/.zsh-local
+fi
