@@ -49,7 +49,6 @@ alias ssa='echo a | ss'
 alias ssb='echo b | ss'
 alias ssc='echo c | ss'
 alias lg='lazygit'
-alias r2modman='r2modman --no-sandbox'
 alias apt='auto-sudo-apt'
 alias update-grub='auto-sudo update-grub'
 alias webstorm='run-jetbrains-product webstorm'
@@ -123,3 +122,4 @@ _npm_or_pnpm() {
 	done
 	_npm "$@"
 }
+
