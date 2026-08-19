@@ -73,7 +73,9 @@ esac
 alias check-git="scan-git ~/code/codeo ~/code/opensource ~/apps --ignore git-broadcast --ignore PeanutButter.TrayIcon --ignore detached-point-arithmetic --ignore phoenix.upgrade --ignore convert-type-imports --ignore newts"
 alias elevate-firefox="renice-all firefox -17"
 alias start="xdg-open"
+alias vibe="sbx-cc"
 
+# auto-remap 'npm' to 'pnpm' when a project has a pnpm-lock.yaml
 function npm () {
 	SEARCH="$(pwd)"
 	WHICH="$(which -p which)"

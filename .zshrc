@@ -82,10 +82,6 @@ function disable-secrets()
   fi
 }
 
-if test -d ~/.dotnet/tools; then
-  export PATH="$PATH:~/.dotnet/tools"
-fi
-
 DOTBINS="$HOME/.dotbins/shell/zsh.sh"
 if test -f "$DOTBINS"; then
   source "$DOTBINS"
