@@ -11,8 +11,9 @@ mkqr()
   fi
   printf "$INPUT" | curl -F-=\<- qrenco.de
 }
- function read_env_flag()
- {
+
+function read_env_flag()
+{
    lower=$(echo "$1" | tr [:upper:] [:lower:])
    case "$lower" in
      "y" | "yes" | "true" | "enable" | "1")
@@ -29,7 +30,7 @@ mkqr()
        exit 2
      ;;
    esac
- }
+}
 
 dircmp() {
   local a="$1" b="$2"
@@ -117,4 +118,12 @@ notify() {
   fi
 
   return $exit_code
+}
+
+jdiff()
+{
+  local a b
+  a="$(mktemp --suffix=.json)"; b="$(mktemp --suffix=.json)"
+  jq -S . "$1" > "$a" && jq -S . "$2" > "$b" && meld "$a" "$b"
+  rm -f "$a" "$b"
 }
