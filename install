@@ -1,21 +1,49 @@
 #!/bin/zsh
+
+function display_help()
+{
+  echo "Install links for dot-zsh"
+  echo "Usage: install {optional args}"
+  echo "    where valid args are:"
+  echo "    -f|--force    overwrite existing links, no backups"
+  echo "    -h|--help     displays this help"
+}
+
 if test -z "$HOME"; then
   echo "No \$HOME set; aborting"
   return 1
 fi
 
-BASE=$(realpath $(dirname $0))
+FORCE=0
+for arg in "$@"; do
+  if test "$arg" = "-f" || test "$arg" = "--force"; then
+    FORCE=1
+    continue
+  fi
+  if test "$arg" = "-h" || test "$arg" = "--help"; then
+    display_help
+    exit 0
+  fi
+  echo "unknown argument $arg"
+  display_help
+done
+
+BASE=$(realpath "$(dirname "$0")")
 function install-link() {
   SOURCE="${BASE}/$1"
   TARGET="${HOME}/$1"
   if test -e "$TARGET"; then
-    echo -en "$TARGET already exists... replace with link to ${SOURCE} ? [y/N] "
-    read ANSWER
-    ANSWER="$(echo $ANSWER | tr '[:upper:]' '[:lower:]' | sed -e 's/yes/y/g')"
-    if test "$ANSWER" != "y"; then
-      exit 1
+    if test "$FORCE" = "1"; then
+      rm "$TARGET"
+    else
+      echo -en "$TARGET already exists... replace with link to ${SOURCE} ? [y/N] "
+      read -r ANSWER
+      ANSWER="$(echo "$ANSWER" | tr '[:upper:]' '[:lower:]' | sed -e 's/yes/y/g')"
+      if test "$ANSWER" != "y"; then
+        exit 1
+      fi
+      mv "$TARGET" "${TARGET}.bak-$(date +%s)"
     fi
-    mv "$TARGET" "${TARGET}.bak-$(date +%s)"
   fi
   echo "installing: ${TARGET}"
   ln -s "$SOURCE" "$TARGET"
