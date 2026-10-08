@@ -9,24 +9,5 @@
 # output or assume the shell is attached to a tty.
 #
 
-# de-dupe path entries
-typeset -U path
-
 export X11HOME=/usr/X11R6
-
-path=($path $X11HOME/bin)
-path=($path /bin /usr/bin /usr/sbin /sbin /bin)
-path=($path /usr/local/bin)
-path=($path $HOME/apps/scripts)
-path=($path $HOME/.dotnet/tools)
-path=($path $HOME/.docker/sbx/bin)
-
-# remove path entries which aren't found on this environment
-path=($^path(N-/))
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-if test -e ~/.rvm/scripts/rvm; then
-  source ~/.rvm/scripts/rvm
-  export PATH="$PATH:$HOME/.rvm/bin"
-fi
-
+source ~/.zsh_path

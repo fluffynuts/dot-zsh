@@ -24,5 +24,7 @@ function install-link() {
 install-link .zsh
 install-link .zshenv
 install-link .zshrc
+install-link .zsh_path
+install-link .zprofile
 
 unfunction install-link

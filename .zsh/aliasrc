@@ -55,6 +55,7 @@ alias rider='run-jetbrains-product rider'
 alias datagrip='run-jetbrains-product datagrip'
 alias android-studio='run-jetbrains-product studio'
 alias pycharm='run-jetbrains-product pycharm'
+alias goland='run-jetbrains-product goland'
 alias release-pull-request='npx -y release-pull-request'
 alias history='history 0'
 alias which-branch-owns='git branch -a --contains'
@@ -73,6 +74,5 @@ esac
 alias check-git="scan-git ~/code/codeo ~/code/opensource ~/apps --ignore git-broadcast --ignore PeanutButter.TrayIcon --ignore detached-point-arithmetic --ignore phoenix.upgrade --ignore convert-type-imports --ignore newts"
 alias elevate-firefox="renice-all firefox -17"
 alias start="xdg-open"
-alias vibe="sbx-cc"
-
+alias dotnet-test="dotnet test -v normal -l quackers"
 
